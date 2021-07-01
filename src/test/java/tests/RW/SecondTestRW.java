@@ -1,20 +1,18 @@
 package tests.RW;
 
-import basics.Basic;
+import basics.Core;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import rwPages.MainPageRW;
 import rwPages.SearchFieldResultPageRW;
 import tests.BasicTest;
-
 import java.io.UnsupportedEncodingException;
-import java.util.concurrent.TimeUnit;
 
-public class SecondTestRW {
+public class SecondTestRW extends BasicTest{
 
     public static WebDriver driver;
-    public static Basic basic;
+    public static Core basic;
     public static String rd;
     public static MainPageRW mainPageRW;
     public static SearchFieldResultPageRW searchFieldResultPageRW;
@@ -22,15 +20,13 @@ public class SecondTestRW {
     @BeforeClass
     @Parameters("browserName")
     public static void starter (String browserName) {
-        BasicTest basicTest = new BasicTest();
-        driver = basicTest.starter(browserName);
-
-        basic = new Basic();
+        driver = setup(browserName);
+        basic = new Core();
         mainPageRW = new MainPageRW(driver);
         searchFieldResultPageRW = new SearchFieldResultPageRW(driver);
-        driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
-        driver.manage().window().maximize();
-        mainPageRW.getToRW();
+        setWait(30, driver);
+        maximizeWindow(driver);
+        getToURL(RW_URL, driver);
         rd = basic.randomSymbols();
         mainPageRW.searchRW(rd);
         mainPageRW.clickOnSearchRW();
@@ -39,11 +35,13 @@ public class SecondTestRW {
     @Test(priority = 1)
     public void hasURLChanged () throws UnsupportedEncodingException {
         String expectedURL = "https://www.rw.by/search/?s=Y&q="+rd+"";
+        setImplicitlyWait(10, driver);
         Assert.assertEquals(searchFieldResultPageRW.getURL(),expectedURL);
     }
 
     @Test(priority = 2)
     public void nothingFoundIsDisplayed () {
+        setImplicitlyWait(5, driver);
         String expected = "К сожалению, на ваш поисковый запрос ничего не найдено.";
         Assert.assertEquals(searchFieldResultPageRW.nothingFoundOnRWText(), expected);
     }
@@ -53,7 +51,12 @@ public class SecondTestRW {
         searchFieldResultPageRW.clearSearchLine();
         searchFieldResultPageRW.clickOnSearchRWAfterNothingFound();
         int expected = 15;
-        Assert.assertEquals(searchFieldResultPageRW.findFifteenLinks(), expected);
+        System.out.println("Количество ссылок: "+ searchFieldResultPageRW.fifteenLinks().size());
+        System.out.println("Тексты ссылок: ");
+        for (int i = 0; i < searchFieldResultPageRW.fifteenLinks().size(); i++) {
+            System.out.println(searchFieldResultPageRW.fifteenLinks().get(i).getText());
+        }
+        Assert.assertEquals(searchFieldResultPageRW.fifteenLinks().size(), expected);
     }
 
     @AfterClass

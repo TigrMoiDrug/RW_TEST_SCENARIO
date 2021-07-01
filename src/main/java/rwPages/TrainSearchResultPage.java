@@ -37,6 +37,7 @@ public class TrainSearchResultPage {
     @FindBy(xpath = "//*[@id='db']/div[1]/div[1]/div/header/div/div[3]/div[1]/a/span[1]/img")
     private WebElement logo;
 
+
 // вывод данных в консоль
     public void consoleWriter () {
         System.out.println("Количество рейсов: "+title.size());
@@ -49,7 +50,6 @@ public class TrainSearchResultPage {
 
 // клик по первой ссылке
     public void firstLinkClicker () {
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         firstLink.click();
     }
 

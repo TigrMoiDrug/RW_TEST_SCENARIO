@@ -1,6 +1,5 @@
 package googlePages;
 
-import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -15,33 +14,20 @@ public class MainPageGoogle {
         this.driver = driver;
     }
 
-    @FindBy(xpath = "//input[@aria-label='Найти']")
+    @FindBy(name = "q")
     private WebElement searchLineInput;
 
-    @FindBy(xpath = "/html/body/div[1]/div[3]/form/div[1]/div[1]/div[3]/center/input[1]")
-    private WebElement submitButton1;
+    @FindBy(name = "btnK")
+    private WebElement submitButton;
 
-    @FindBy(xpath = "/html/body/div[1]/div[3]/form/div[1]/div[1]/div[2]/div[2]/div[2]/center/input[1]")
-    private WebElement submitButton2;
-
-
-    public void getToGoogle() {
-        String googleURL = "https://www.google.com/";
-        driver.get(googleURL);
-    }
-
-    public void typeTextToSearchInGoogleSearchLine(){
-        String textToSearch = "белорусская железная дорога";
+// Ввод текста в строку поиска
+    public void typeTextInGoogleSearchLine(String textToSearch){
         searchLineInput.sendKeys(textToSearch);
     }
 
+// Клик по кнопке "Поиск в Google"
     public void clickGoogleSearchButton(){
-        try{
-            submitButton1.click();
-        }
-        catch (ElementClickInterceptedException ex){
-            submitButton2.click();
-        }
+        submitButton.click();
     }
 
 }

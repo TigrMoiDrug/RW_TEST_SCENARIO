@@ -33,7 +33,6 @@ public class SearchFieldResultPageRW {
 
 //получить урл после введения текста
     public String getURL() throws UnsupportedEncodingException {
-         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
          driver.getCurrentUrl();
          return URLDecoder.decode( driver.getCurrentUrl(), "UTF-8" );
     }
@@ -56,12 +55,7 @@ public class SearchFieldResultPageRW {
     }
 
 //15 результатов на странице поиска и их текст
-    public int findFifteenLinks() {
-        System.out.println("Количество ссылок: "+links.size());
-        System.out.println("Тексты ссылок: ");
-        for (int i = 0; i < links.size(); i++) {
-            System.out.println(links.get(i).getText());
-        }
-        return links.size();
+    public List<WebElement> fifteenLinks() {
+        return links;
     }
 }

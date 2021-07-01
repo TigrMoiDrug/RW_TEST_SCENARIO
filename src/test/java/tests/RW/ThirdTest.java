@@ -10,27 +10,27 @@ import rwPages.MainPageRW;
 import rwPages.TrainSearchResultPage;
 import tests.BasicTest;
 
-import java.util.concurrent.TimeUnit;
-
-public class ThirdTest {
+public class ThirdTest extends BasicTest{
 
     public static WebDriver driver;
     public static MainPageRW mainPageRW;
     public static TrainSearchResultPage trainSearchResultPage;
+    public static String RW_URL = "https://www.rw.by/";
 
     @BeforeClass
     @Parameters("browserName")
     public static void starter (String browserName) throws InterruptedException {
-        BasicTest basicTest = new BasicTest();
-        driver = basicTest.starter(browserName);
+        driver = setup(browserName);
 
         mainPageRW = new MainPageRW(driver);
         trainSearchResultPage = new TrainSearchResultPage(driver);
-        driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
-        driver.manage().window().maximize();
-        mainPageRW.getToRW();
-        mainPageRW.validLocationsToFieldsFromToAndDate();
+        setWait(30, driver);
+        maximizeWindow(driver);
+        getToURL(RW_URL,driver);
+        Thread.sleep(5000);
+        validLocationsToFieldsFromToAndDatePlusFiveDays(mainPageRW);
         trainSearchResultPage.consoleWriter();
+        Thread.sleep(5000);
         trainSearchResultPage.firstLinkClicker();
     }
 

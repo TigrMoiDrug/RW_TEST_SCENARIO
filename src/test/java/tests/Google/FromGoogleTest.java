@@ -11,32 +11,34 @@ import org.testng.annotations.Test;
 import rwPages.MainPageRW;
 import tests.BasicTest;
 
-import java.util.concurrent.TimeUnit;
 
-public class FromGoogleTest {
+public class FromGoogleTest extends BasicTest{
 
     public static WebDriver driver;
     public static MainPageGoogle mainPageGoogle;
     public static ResultPageGoogle resultPageGoogle;
     public static MainPageRW mainPageRW;
+    public static String textToSearch = "белорусская железная дорога";
 
     @BeforeClass
     @Parameters("browserName")
-    public static void starter (String browserName) {
-        BasicTest basicTest = new BasicTest();
-        driver = basicTest.starter(browserName);
+    public static void starter (String browserName) throws InterruptedException{
+        driver = setup(browserName);
 
         mainPageGoogle = new MainPageGoogle(driver);
         resultPageGoogle = new ResultPageGoogle(driver);
         mainPageRW = new MainPageRW(driver);
 
-        driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
-        driver.manage().window().maximize();
+        getToURL(googleURL, driver);
+        setWait(30, driver);
 
-        mainPageGoogle.getToGoogle();
-        mainPageGoogle.typeTextToSearchInGoogleSearchLine();
+        maximizeWindow(driver);
+
+        mainPageGoogle.typeTextInGoogleSearchLine(textToSearch);
+
+        Thread.sleep(5000);
+
         mainPageGoogle.clickGoogleSearchButton();
-
         resultPageGoogle.clickOnGoogleLink();
 
     }

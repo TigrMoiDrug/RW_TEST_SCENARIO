@@ -4,7 +4,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import java.util.Random;
 
-public class Basic {
+public class Core {
 
 //случайные буквы
     public String randomSymbols(){
@@ -19,7 +19,6 @@ public class Basic {
     }
 
 // проверка загрузки страницы
-
     public String loadingStatus(WebDriver driver){
         String status = null;
         do{
@@ -30,5 +29,4 @@ public class Basic {
         while ( !status.equals("complete") );
         return status;
     }
-
 }
