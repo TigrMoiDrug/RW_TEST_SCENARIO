@@ -5,7 +5,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class TrainSearchResultPage {
 
@@ -16,25 +15,22 @@ public class TrainSearchResultPage {
         this.driver = driver;
     }
 
-    @FindBy(xpath = "/html/body/div[3]/div[3]/div[3]/div/div[3]/div[2]/div/form/div[2]/div[1]/span/input")
-    private WebElement searchButton;
-
-    @FindBy(xpath = "//*[@id='sch-route']/div[3]/div[2]/div[1]/div[3]/div/div/div/div[1]/a/span[2]")
+    @FindBy(className = "train-route")
     private List<WebElement> title;
 
-    @FindBy(xpath = "//*[@id='sch-route']/div[3]/div[2]/div[1]/div[3]/div/div/div/div[2]/div[1]/div/div[1]/div[1]")
+    @FindBy(className = "departure")
     private List<WebElement> departureTime;
 
     @FindBy(xpath = "//*[@id='sch-route']/div[3]/div[2]/div[1]/div[3]/div/div[1]/div/div[1]/a/span[2]")
     private WebElement firstLink;
 
-    @FindBy(xpath = "//*[@id='workarea']/div[2]/div[1]/div/div[2]")
+    @FindBy(className = "sch-title")
     private WebElement trainName;
 
     @FindBy(xpath = "//*[@id='workarea']/div[2]/div[1]/div/div[2]")
     private List<WebElement> textUnderTrainName;
 
-    @FindBy(xpath = "//*[@id='db']/div[1]/div[1]/div/header/div/div[3]/div[1]/a/span[1]/img")
+    @FindBy(className = "logo-png")
     private WebElement logo;
 
 

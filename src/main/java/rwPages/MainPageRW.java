@@ -17,40 +17,40 @@ public class MainPageRW extends Core {
         this.driver = driver;
     }
 
-    @FindBy(xpath = "/html/body/div[3]/div[3]/div[2]/div[2]/div[3]/div[1]/div[4]/a")
+    @FindBy(linkText = "ENG")
     private WebElement languageIconEng;
 
-    @FindBy(xpath = "/html/body/div[3]/div[3]/div[3]/div/div[4]/div[2]/div/div[2]/div/dl/dt")
+    @FindBy(tagName = "dt")
     private List <WebElement> newsBlock;
 
-    @FindBy(xpath = "/html/body/div[3]/div[3]/div[4]/div[1]")
+    @FindBy(className = "copyright")
     private WebElement copyright;
 
     @FindBy(xpath = "//*[@id='main_menu']/div/table/tbody/tr/td")
     private List<WebElement> topButtons;
 
-    @FindBy(xpath = "//*[@id='searchinp']")
+    @FindBy(id = "searchinp")
     private WebElement searchField;
 
     @FindBy(xpath = "/html/body/div[3]/div[3]/div[2]/div[2]/div[3]/div[2]/form/button")
     private WebElement searchFieldButton;
 
-    @FindBy(xpath = "//*[@id='fTickets']/div[2]/div[1]/span/input")
+    @FindBy(className = "std-button")
     private WebElement searchButton;
 
-    @FindBy(xpath = "//*[@id='acFrom']")
+    @FindBy(id = "acFrom")
     private WebElement fromField;
 
-    @FindBy(xpath = "//*[@id='acTo']")
+    @FindBy(id = "acTo")
     private WebElement toField;
 
-    @FindBy(xpath = "//*[@id='yDate']")
+    @FindBy(id = "yDate")
     private WebElement dateField;
 
     @FindBy(className = "calendar")
     private WebElement datePickerButton;
 
-    @FindBy(className = "ui-state-default")
+    @FindBy(xpath = "//*[@id='ui-datepicker-div']/div/table/tbody/tr/td/a")
     private List <WebElement> datePickerTable;
 
 //смена языка

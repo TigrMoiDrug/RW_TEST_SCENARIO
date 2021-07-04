@@ -6,8 +6,11 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import rwPages.MainPageRW;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 public class BasicTest {
@@ -41,7 +44,7 @@ public class BasicTest {
         driver.manage().timeouts().pageLoadTimeout(sec, TimeUnit.SECONDS);
     }
 
-    public void setImplicitlyWait (int sec, WebDriver driver){
+    public static void setImplicitlyWait (int sec, WebDriver driver){
         driver.manage().timeouts().implicitlyWait(sec, TimeUnit.SECONDS);
     }
 
@@ -51,23 +54,52 @@ public class BasicTest {
 
     public static void validLocationsToFieldsFromToAndDatePlusFiveDays(MainPageRW mainPageRW) throws InterruptedException {
         Date currentDate = new Date();
-        SimpleDateFormat currentDateFormat = new SimpleDateFormat("dd");
+        SimpleDateFormat currentDateFormat = new SimpleDateFormat("d");
         String actualDate = currentDateFormat.format(currentDate);
         System.out.println("Today is: " + actualDate);
         mainPageRW.getFromField().sendKeys("Минск-Пассажирский");
         mainPageRW.getToField().sendKeys("Молодечно");
         mainPageRW.clickDatePickerButton();
+        Thread.sleep(1000);
 
         for (int i = 0 ; i <  mainPageRW.getDatePickerTable().size(); i++){
-            if( mainPageRW.getDatePickerTable().get(i).getText().equals(actualDate)){
+            if(mainPageRW.getDatePickerTable().get(i).getText().equals(actualDate)){
                 mainPageRW.getDatePickerTable().get(i+5).click();
-                break;
             }
         }
-
-        Thread.sleep(1000);
         mainPageRW.searchButtonClick();
 
     }
+// url в зависимости от переменной окружения ENV
+    public static String URLByEnvironment (){
+
+        String dev = "development";
+        String integration = "integration";
+        String prefix = "src/main/resources/";
+        String postfix = ".properties";
+        String propertiesName = null;
+
+        String env = System.getenv("ENV");
+        Properties prop = new Properties();
+
+        if (env.equals(integration)){
+            propertiesName = prefix + integration + postfix;
+
+        }
+        else if (env.equals(dev)) {
+            propertiesName = prefix + dev + postfix;
+
+        }
+
+        try {
+            prop.load(new FileInputStream(propertiesName));
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        return prop.getProperty("URL");
+    }
+
 
 }

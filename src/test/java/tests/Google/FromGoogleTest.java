@@ -28,15 +28,15 @@ public class FromGoogleTest extends BasicTest{
         mainPageGoogle = new MainPageGoogle(driver);
         resultPageGoogle = new ResultPageGoogle(driver);
         mainPageRW = new MainPageRW(driver);
-
-        getToURL(googleURL, driver);
+// Вот новый вариант перехода за заданный урл в зависимости от среды
+        getToURL(URLByEnvironment(), driver);
         setWait(30, driver);
 
         maximizeWindow(driver);
 
         mainPageGoogle.typeTextInGoogleSearchLine(textToSearch);
 
-        Thread.sleep(5000);
+        setImplicitlyWait(5, driver);
 
         mainPageGoogle.clickGoogleSearchButton();
         resultPageGoogle.clickOnGoogleLink();

@@ -5,6 +5,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import java.util.List;
+
 public class ResultPageGoogle {
     public WebDriver driver;
 
@@ -13,12 +15,12 @@ public class ResultPageGoogle {
         this.driver = driver;
     }
 
-    @FindBy(xpath = "//*[@id='rso']/div[1]/div/div/div/div/div/div[1]/a")
-    private WebElement link;
+    @FindBy(className = "yuRUbf")
+    private List <WebElement> links;
 
 // клик по ссылке
     public void clickOnGoogleLink(){
-        link.click();
+        links.get(0).click();
     }
 
 }
