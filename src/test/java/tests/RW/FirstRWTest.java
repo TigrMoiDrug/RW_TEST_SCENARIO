@@ -10,17 +10,12 @@ import java.util.List;
 
 public class FirstRWTest extends BasicTest{
 
-    public static WebDriver driver;
-    public static MainPageRW mainPageRW;
     public static String expected = "© 2021 Belarusian Railway";
 
     @BeforeClass
     @Parameters("browserName")
     public static void starter(String browserName){
-        driver = setup(browserName);
         mainPageRW = new MainPageRW(driver);
-        setWait(30, driver);
-        maximizeWindow(driver);
         getToURL(RW_URL, driver);
         mainPageRW.switchLanguage();
     }
@@ -64,11 +59,6 @@ public class FirstRWTest extends BasicTest{
 
         Assert.assertEquals(mainPageRW.topButtons().size(), 5);
 
-    }
-
-    @AfterClass
-    public void stop (){
-        driver.quit();
     }
 
 }

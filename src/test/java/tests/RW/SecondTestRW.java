@@ -1,7 +1,6 @@
 package tests.RW;
 
 import basics.Core;
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import rwPages.MainPageRW;
@@ -11,21 +10,16 @@ import java.io.UnsupportedEncodingException;
 
 public class SecondTestRW extends BasicTest{
 
-    public static WebDriver driver;
     public static Core basic;
     public static String rd;
-    public static MainPageRW mainPageRW;
-    public static SearchFieldResultPageRW searchFieldResultPageRW;
+    public static String place = "Санкт-петербург";
 
     @BeforeClass
     @Parameters("browserName")
     public static void starter (String browserName) {
-        driver = setup(browserName);
         basic = new Core();
         mainPageRW = new MainPageRW(driver);
         searchFieldResultPageRW = new SearchFieldResultPageRW(driver);
-        setWait(30, driver);
-        maximizeWindow(driver);
         getToURL(RW_URL, driver);
         rd = basic.randomSymbols();
         mainPageRW.searchRW(rd);
@@ -48,7 +42,7 @@ public class SecondTestRW extends BasicTest{
 
     @Test(priority = 3)
     public void linksAreDisplayed() {
-        searchFieldResultPageRW.clearSearchLine();
+        searchFieldResultPageRW.clearSearchLine(place);
         searchFieldResultPageRW.clickOnSearchRWAfterNothingFound();
         setImplicitlyWait(driver);
         int expected = 15;
@@ -58,11 +52,6 @@ public class SecondTestRW extends BasicTest{
             System.out.println(searchFieldResultPageRW.fifteenLinks().get(i).getText());
         }
         Assert.assertEquals(searchFieldResultPageRW.fifteenLinks().size(), expected);
-    }
-
-    @AfterClass
-    public void stop () {
-        driver.quit();
     }
 
 }

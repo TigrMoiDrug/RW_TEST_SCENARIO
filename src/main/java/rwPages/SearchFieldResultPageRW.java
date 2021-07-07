@@ -8,8 +8,11 @@ import org.openqa.selenium.support.PageFactory;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class SearchFieldResultPageRW {
+
+    public final Logger log = Logger.getLogger(String.valueOf(SearchFieldResultPageRW.class));
 
     public WebDriver driver;
 
@@ -38,14 +41,14 @@ public class SearchFieldResultPageRW {
 
 // проверка сообщения "по запросу ничего не найдено"
     public String nothingFoundOnRWText() {
-        System.out.println(nothingFoundText.getText());
+        log.info(nothingFoundText.getText());
         return nothingFoundText.getText();
     }
 
 // поиска и введение нового текста в поисковую строку
-    public void clearSearchLine() {
+    public void clearSearchLine(String place) {
         searchLine.clear();
-        searchLine.sendKeys("Санкт-петербург");
+        searchLine.sendKeys(place);
     }
 
 // кли по кнопке начать поиск

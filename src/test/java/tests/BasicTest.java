@@ -1,10 +1,20 @@
 package tests;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Parameters;
+
 import rwPages.MainPageRW;
+import rwPages.SearchFieldResultPageRW;
+import rwPages.TrainSearchResultPage;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -16,11 +26,26 @@ import java.util.logging.Logger;
 
 public class BasicTest {
 
+    public static WebDriver driver;
+
+    public static MainPageRW mainPageRW;
+    public static SearchFieldResultPageRW searchFieldResultPageRW;
+    public static TrainSearchResultPage trainSearchResultPage;
+
     public final  Logger log = Logger.getLogger(String.valueOf(BasicTest.class));
 
     public static String RW_URL = "https://www.rw.by/";
 
     public static String googleURL = "https://www.google.com/";
+
+    @BeforeClass
+    @Parameters("browserName")
+    public static void init (String browserName){
+        driver = setup(browserName);
+        setWait(30, driver);
+        maximizeWindow(driver);
+
+    }
 
     public static WebDriver setup(String browserName){
         WebDriver driver = null;
@@ -110,5 +135,9 @@ public class BasicTest {
         return prop.getProperty("URL");
     }
 
+    @AfterClass
+    public void stop () {
+        driver.quit();
+    }
 
 }

@@ -1,8 +1,6 @@
 package tests.RW;
 
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -12,20 +10,13 @@ import tests.BasicTest;
 
 public class ThirdTest extends BasicTest{
 
-    public static WebDriver driver;
-    public static MainPageRW mainPageRW;
-    public static TrainSearchResultPage trainSearchResultPage;
     public static String RW_URL = "https://www.rw.by/";
 
     @BeforeClass
     @Parameters("browserName")
-    public static void starter (String browserName) throws InterruptedException {
-        driver = setup(browserName);
-
+    public static void starter (String browserName) {
         mainPageRW = new MainPageRW(driver);
         trainSearchResultPage = new TrainSearchResultPage(driver);
-        setWait(30, driver);
-        maximizeWindow(driver);
         getToURL(RW_URL,driver);
         setImplicitlyWait(driver);
         validLocationsToFieldsFromToAndDatePlusFiveDays(mainPageRW, driver);
@@ -49,11 +40,6 @@ public class ThirdTest extends BasicTest{
         trainSearchResultPage.logoClick();
         mainPageRW.loadingStatus(driver);
         Assert.assertEquals(mainPageRW.loadingStatus(driver), "complete");
-    }
-
-    @AfterClass
-    public void stop (){
-        driver.quit();
     }
 
 }

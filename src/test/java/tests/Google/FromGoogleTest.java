@@ -2,9 +2,7 @@ package tests.Google;
 
 import googlePages.MainPageGoogle;
 import googlePages.ResultPageGoogle;
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -13,7 +11,6 @@ import tests.BasicTest;
 
 public class FromGoogleTest extends BasicTest{
 
-    public static WebDriver driver;
     public static MainPageGoogle mainPageGoogle;
     public static ResultPageGoogle resultPageGoogle;
     public static MainPageRW mainPageRW;
@@ -23,16 +20,12 @@ public class FromGoogleTest extends BasicTest{
     @BeforeClass
     @Parameters("browserName")
     public static void starter (String browserName){
-        driver = setup(browserName);
 
         mainPageGoogle = new MainPageGoogle(driver);
         resultPageGoogle = new ResultPageGoogle(driver);
         mainPageRW = new MainPageRW(driver);
 // Вот новый вариант перехода за заданный урл в зависимости от среды
         getToURL(urlByEnv, driver);
-        setWait(30, driver);
-
-        maximizeWindow(driver);
 
         mainPageGoogle.typeTextInGoogleSearchLine(textToSearch);
 
@@ -46,11 +39,6 @@ public class FromGoogleTest extends BasicTest{
     @Test
     public void mainPageLoadedFine(){
         Assert.assertEquals(mainPageRW.loadingStatus(driver), "complete");
-    }
-
-    @AfterClass
-    public void stop (){
-        driver.quit();
     }
 
 }
