@@ -27,10 +27,10 @@ public class ThirdTest extends BasicTest{
         setWait(30, driver);
         maximizeWindow(driver);
         getToURL(RW_URL,driver);
-        setImplicitlyWait(10, driver);
-        validLocationsToFieldsFromToAndDatePlusFiveDays(mainPageRW);
+        setImplicitlyWait(driver);
+        validLocationsToFieldsFromToAndDatePlusFiveDays(mainPageRW, driver);
         trainSearchResultPage.consoleWriter();
-        setImplicitlyWait(10, driver);
+        setImplicitlyWait(driver);
         trainSearchResultPage.firstLinkClicker();
     }
 

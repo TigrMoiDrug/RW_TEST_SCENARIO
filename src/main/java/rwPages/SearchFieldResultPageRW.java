@@ -24,7 +24,7 @@ public class SearchFieldResultPageRW {
     @FindBy(id = "searchinpm")
     private WebElement searchLine;
 
-    @FindBy(xpath = "//*[@id='sform']/div[1]/input")
+    @FindBy(xpath = "//*[@id='sform']/*/input")
     private WebElement searchButton;
 
     @FindBy(className = "search-preview")

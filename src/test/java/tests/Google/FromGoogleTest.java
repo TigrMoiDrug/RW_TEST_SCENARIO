@@ -11,7 +11,6 @@ import org.testng.annotations.Test;
 import rwPages.MainPageRW;
 import tests.BasicTest;
 
-
 public class FromGoogleTest extends BasicTest{
 
     public static WebDriver driver;
@@ -19,24 +18,25 @@ public class FromGoogleTest extends BasicTest{
     public static ResultPageGoogle resultPageGoogle;
     public static MainPageRW mainPageRW;
     public static String textToSearch = "белорусская железная дорога";
+    public static String urlByEnv = urlByEnvironment();
 
     @BeforeClass
     @Parameters("browserName")
-    public static void starter (String browserName) throws InterruptedException{
+    public static void starter (String browserName){
         driver = setup(browserName);
 
         mainPageGoogle = new MainPageGoogle(driver);
         resultPageGoogle = new ResultPageGoogle(driver);
         mainPageRW = new MainPageRW(driver);
 // Вот новый вариант перехода за заданный урл в зависимости от среды
-        getToURL(URLByEnvironment(), driver);
+        getToURL(urlByEnv, driver);
         setWait(30, driver);
 
         maximizeWindow(driver);
 
         mainPageGoogle.typeTextInGoogleSearchLine(textToSearch);
 
-        setImplicitlyWait(5, driver);
+        setImplicitlyWait(driver);
 
         mainPageGoogle.clickGoogleSearchButton();
         resultPageGoogle.clickOnGoogleLink();

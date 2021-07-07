@@ -12,8 +12,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 public class BasicTest {
+
+    public final  Logger log = Logger.getLogger(String.valueOf(BasicTest.class));
 
     public static String RW_URL = "https://www.rw.by/";
 
@@ -44,15 +47,19 @@ public class BasicTest {
         driver.manage().timeouts().pageLoadTimeout(sec, TimeUnit.SECONDS);
     }
 
-    public static void setImplicitlyWait (int sec, WebDriver driver){
-        driver.manage().timeouts().implicitlyWait(sec, TimeUnit.SECONDS);
+    public static void setImplicitlyWait (WebDriver driver){
+        driver.manage().timeouts().implicitlyWait(5,TimeUnit.SECONDS);
+    }
+
+    public static void setImplicitlyWait (WebDriver driver, int sec){
+        driver.manage().timeouts().implicitlyWait(sec,TimeUnit.SECONDS);
     }
 
     public static void maximizeWindow (WebDriver driver){
         driver.manage().window().maximize();
     }
 
-    public static void validLocationsToFieldsFromToAndDatePlusFiveDays(MainPageRW mainPageRW) throws InterruptedException {
+    public static void validLocationsToFieldsFromToAndDatePlusFiveDays(MainPageRW mainPageRW, WebDriver driver) {
         Date currentDate = new Date();
         SimpleDateFormat currentDateFormat = new SimpleDateFormat("d");
         String actualDate = currentDateFormat.format(currentDate);
@@ -60,7 +67,7 @@ public class BasicTest {
         mainPageRW.getFromField().sendKeys("Минск-Пассажирский");
         mainPageRW.getToField().sendKeys("Молодечно");
         mainPageRW.clickDatePickerButton();
-        Thread.sleep(1000);
+        setImplicitlyWait(driver);
 
         for (int i = 0 ; i <  mainPageRW.getDatePickerTable().size(); i++){
             if(mainPageRW.getDatePickerTable().get(i).getText().equals(actualDate)){
@@ -71,7 +78,7 @@ public class BasicTest {
 
     }
 // url в зависимости от переменной окружения ENV
-    public static String URLByEnvironment (){
+    public static String urlByEnvironment (){
 
         String dev = "development";
         String integration = "integration";
@@ -94,7 +101,9 @@ public class BasicTest {
         try {
             prop.load(new FileInputStream(propertiesName));
 
-        } catch (IOException ex) {
+        }
+
+        catch (IOException ex) {
             ex.printStackTrace();
         }
 

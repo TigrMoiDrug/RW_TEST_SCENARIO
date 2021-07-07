@@ -35,13 +35,13 @@ public class SecondTestRW extends BasicTest{
     @Test(priority = 1)
     public void hasURLChanged () throws UnsupportedEncodingException {
         String expectedURL = "https://www.rw.by/search/?s=Y&q="+rd+"";
-        setImplicitlyWait(10, driver);
+        setImplicitlyWait(driver);
         Assert.assertEquals(searchFieldResultPageRW.getURL(),expectedURL);
     }
 
     @Test(priority = 2)
     public void nothingFoundIsDisplayed () {
-        setImplicitlyWait(5, driver);
+        setImplicitlyWait(driver);
         String expected = "К сожалению, на ваш поисковый запрос ничего не найдено.";
         Assert.assertEquals(searchFieldResultPageRW.nothingFoundOnRWText(), expected);
     }
@@ -50,9 +50,10 @@ public class SecondTestRW extends BasicTest{
     public void linksAreDisplayed() {
         searchFieldResultPageRW.clearSearchLine();
         searchFieldResultPageRW.clickOnSearchRWAfterNothingFound();
+        setImplicitlyWait(driver);
         int expected = 15;
-        System.out.println("Количество ссылок: "+ searchFieldResultPageRW.fifteenLinks().size());
-        System.out.println("Тексты ссылок: ");
+        log.info("Количество ссылок: "+ searchFieldResultPageRW.fifteenLinks().size());
+        log.info("Тексты ссылок: ");
         for (int i = 0; i < searchFieldResultPageRW.fifteenLinks().size(); i++) {
             System.out.println(searchFieldResultPageRW.fifteenLinks().get(i).getText());
         }

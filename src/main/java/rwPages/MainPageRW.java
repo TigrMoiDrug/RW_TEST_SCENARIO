@@ -26,13 +26,13 @@ public class MainPageRW extends Core {
     @FindBy(className = "copyright")
     private WebElement copyright;
 
-    @FindBy(xpath = "//*[@id='main_menu']/div/table/tbody/tr/td")
+    @FindBy(xpath = "//*[@id='main_menu']//*/td")
     private List<WebElement> topButtons;
 
     @FindBy(id = "searchinp")
     private WebElement searchField;
 
-    @FindBy(xpath = "/html/body/div[3]/div[3]/div[2]/div[2]/div[3]/div[2]/form/button")
+    @FindBy(tagName = "button")
     private WebElement searchFieldButton;
 
     @FindBy(className = "std-button")
@@ -50,7 +50,7 @@ public class MainPageRW extends Core {
     @FindBy(className = "calendar")
     private WebElement datePickerButton;
 
-    @FindBy(xpath = "//*[@id='ui-datepicker-div']/div/table/tbody/tr/td/a")
+    @FindBy(xpath = "//*[@id='ui-datepicker-div']//*/a")
     private List <WebElement> datePickerTable;
 
 //смена языка

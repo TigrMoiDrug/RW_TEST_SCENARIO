@@ -5,6 +5,8 @@ import org.testng.Assert;
 import org.testng.annotations.*;
 import rwPages.MainPageRW;
 import tests.BasicTest;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FirstRWTest extends BasicTest{
 
@@ -26,7 +28,7 @@ public class FirstRWTest extends BasicTest{
 //проверка количества новостей в блоке
     @Test(priority = 1)
     public void notLessThanFourNewsDisplayed () {
-        System.out.println("Количество новостей в блоке -" + mainPageRW.getNewsBlockSize());
+        log.info("Количество новостей в блоке: " + mainPageRW.getNewsBlockSize());
         Assert.assertTrue(mainPageRW.getNewsBlockSize() >= 4);
     }
 // Текст копирайта
@@ -38,31 +40,27 @@ public class FirstRWTest extends BasicTest{
 //В этом тесте фактическое количество кнопок не совпадает с ожидаемым
     @Test(priority = 3)
     public void theNumberOfButtonsIsCorrect () {
-        String pressCenter = "Press Center";
-        String timeTable = "Timetable";
-        String passengerServices = "Passenger Services";
-        String freight = "Freight";
-        String corporate = "Corporate";
+        String pressCenter = "PRESS CENTER";
+        String timeTable = "TIMETABLE";
+        String passengerServices = "PASSENGER SERVICES";
+        String freight = "FREIGHT";
+        String corporate = "CORPORATE";
 
-        String [] searchedButtons = new String[5];
-
-        searchedButtons[0] = pressCenter;
-        searchedButtons[1] = timeTable;
-        searchedButtons[2] = passengerServices;
-        searchedButtons[3] = freight;
-        searchedButtons[4] = corporate;
+        List<String> buttonsList = new ArrayList<>();
+        buttonsList.add(pressCenter);
+        buttonsList.add(timeTable);
+        buttonsList.add(passengerServices);
+        buttonsList.add(freight);
+        buttonsList.add(corporate);
 
         int counterOfFoundMatches = 0;
         for (int i = 0; i < mainPageRW.topButtons().size(); i++){
-            for (int j = 0; j < searchedButtons.length; j++){
-                if (mainPageRW.topButtons().get(i).getText().equalsIgnoreCase(searchedButtons[j])){
-                    counterOfFoundMatches++;
-                }
+            if (buttonsList.contains(mainPageRW.topButtons().get(i).getText())){
+                counterOfFoundMatches++;
             }
         }
-        System.out.println("Количество кнопок на странице: "+ mainPageRW.topButtons().size());
-        System.out.println("Количество совпадений с условием: "+counterOfFoundMatches);
-
+        log.info("Количество кнопок на странице: "+ mainPageRW.topButtons().size());
+        log.info("Количество совпадений с условием: "+counterOfFoundMatches);
 
         Assert.assertEquals(mainPageRW.topButtons().size(), 5);
 

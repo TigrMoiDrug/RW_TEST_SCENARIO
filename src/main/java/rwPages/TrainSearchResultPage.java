@@ -21,13 +21,13 @@ public class TrainSearchResultPage {
     @FindBy(className = "departure")
     private List<WebElement> departureTime;
 
-    @FindBy(xpath = "//*[@id='sch-route']/div[3]/div[2]/div[1]/div[3]/div/div[1]/div/div[1]/a/span[2]")
+    @FindBy(xpath = "//*[@id='sch-route']/div[3]//*/span[2]")
     private WebElement firstLink;
 
     @FindBy(className = "sch-title")
     private WebElement trainName;
 
-    @FindBy(xpath = "//*[@id='workarea']/div[2]/div[1]/div/div[2]")
+    @FindBy(xpath = "//*[@id='workarea']//*/div/div[2]")
     private List<WebElement> textUnderTrainName;
 
     @FindBy(className = "logo-png")
