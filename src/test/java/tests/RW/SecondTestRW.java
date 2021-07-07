@@ -23,19 +23,23 @@ public class SecondTestRW extends BasicTest{
         getToURL(RW_URL, driver);
         rd = basic.randomSymbols();
         mainPageRW.searchRW(rd);
+        // Выключение неявного ожидания
+        setImplicitlyWait(driver, 0);
+        // Включение явного ожидания
+        setExplicitWaitOnElementBeClickable("button");
         mainPageRW.clickOnSearchRW();
+        // Включение неявного ожидания
+        setImplicitlyWait(driver);
     }
 
     @Test(priority = 1)
     public void hasURLChanged () throws UnsupportedEncodingException {
         String expectedURL = "https://www.rw.by/search/?s=Y&q="+rd+"";
-        setImplicitlyWait(driver);
         Assert.assertEquals(searchFieldResultPageRW.getURL(),expectedURL);
     }
 
     @Test(priority = 2)
     public void nothingFoundIsDisplayed () {
-        setImplicitlyWait(driver);
         String expected = "К сожалению, на ваш поисковый запрос ничего не найдено.";
         Assert.assertEquals(searchFieldResultPageRW.nothingFoundOnRWText(), expected);
     }
@@ -44,12 +48,11 @@ public class SecondTestRW extends BasicTest{
     public void linksAreDisplayed() {
         searchFieldResultPageRW.clearSearchLine(place);
         searchFieldResultPageRW.clickOnSearchRWAfterNothingFound();
-        setImplicitlyWait(driver);
         int expected = 15;
         log.info("Количество ссылок: "+ searchFieldResultPageRW.fifteenLinks().size());
         log.info("Тексты ссылок: ");
         for (int i = 0; i < searchFieldResultPageRW.fifteenLinks().size(); i++) {
-            System.out.println(searchFieldResultPageRW.fifteenLinks().get(i).getText());
+            log.info(searchFieldResultPageRW.fifteenLinks().get(i).getText());
         }
         Assert.assertEquals(searchFieldResultPageRW.fifteenLinks().size(), expected);
     }

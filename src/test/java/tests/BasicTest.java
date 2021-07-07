@@ -1,5 +1,6 @@
 package tests;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -42,9 +43,8 @@ public class BasicTest {
     @Parameters("browserName")
     public static void init (String browserName){
         driver = setup(browserName);
-        setWait(30, driver);
+        setWait(driver, 30);
         maximizeWindow(driver);
-
     }
 
     public static WebDriver setup(String browserName){
@@ -68,7 +68,7 @@ public class BasicTest {
         driver.get(googleURL);
     }
 
-    public static void setWait(int sec, WebDriver driver){
+    public static void setWait(WebDriver driver, int sec){
         driver.manage().timeouts().pageLoadTimeout(sec, TimeUnit.SECONDS);
     }
 
@@ -78,6 +78,11 @@ public class BasicTest {
 
     public static void setImplicitlyWait (WebDriver driver, int sec){
         driver.manage().timeouts().implicitlyWait(sec,TimeUnit.SECONDS);
+    }
+
+    public static void setExplicitWaitOnElementBeClickable (String tag){
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+                wait.until(ExpectedConditions.elementToBeClickable(By.tagName(tag)));
     }
 
     public static void maximizeWindow (WebDriver driver){
