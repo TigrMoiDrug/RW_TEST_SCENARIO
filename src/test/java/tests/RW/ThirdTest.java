@@ -1,5 +1,6 @@
 package tests.RW;
 
+import basics.Printer;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
@@ -10,35 +11,40 @@ import tests.BasicTest;
 
 public class ThirdTest extends BasicTest{
 
-    public static String RW_URL = "https://www.rw.by/";
-
     @BeforeClass
     @Parameters("browserName")
     public static void starter (String browserName) {
+
         mainPageRW = new MainPageRW(driver);
         trainSearchResultPage = new TrainSearchResultPage(driver);
+
         getToURL(RW_URL,driver);
-        setImplicitlyWait(driver);
-        validLocationsToFieldsFromToAndDatePlusFiveDays(mainPageRW, driver);
-        trainSearchResultPage.consoleWriter();
-        setImplicitlyWait(driver);
+
+        validLocationsToFieldsFromToAndDatePlusFiveDays(mainPageRW);
+
+        //обновленый вывод в консоль
+        Printer.printTitlesAndDepartureTime(trainSearchResultPage.getTitle(),
+                trainSearchResultPage.getDepartureTime());
+
         trainSearchResultPage.firstLinkClicker();
     }
 
-    @Test(priority = 1)
-    public void nameOfTheTrainIsDisplayed () {
+    @Test
+    public void test1nameOfTheTrainIsDisplayed () {
         Assert.assertNotNull(trainSearchResultPage.trainName());
     }
 
-    @Test(priority = 2)
-    public void textIsDisplayed () {
-        Assert.assertTrue(trainSearchResultPage.getText() != 0);
+    @Test
+    public void test2textIsDisplayed () {
+        Assert.assertTrue(trainSearchResultPage.getTextSize() != 0);
     }
 
-    @Test(priority = 3)
-    public void pageLoadedFine () {
-        trainSearchResultPage.logoClick();
-        mainPageRW.loadingStatus(driver);
+    @Test
+    public void test3pageLoadedFine () {
+
+        trainSearchResultPage.logoClick()
+                .loadingStatus(driver);
+
         Assert.assertEquals(mainPageRW.loadingStatus(driver), "complete");
     }
 

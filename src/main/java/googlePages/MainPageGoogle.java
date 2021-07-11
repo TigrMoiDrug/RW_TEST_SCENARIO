@@ -1,18 +1,12 @@
 package googlePages;
 
+import basics.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public class MainPageGoogle {
-
-    public WebDriver driver;
-
-    public MainPageGoogle (WebDriver driver){
-        PageFactory.initElements(driver, this);
-        this.driver = driver;
-    }
+public class MainPageGoogle extends AbstractPage {
 
     @FindBy(name = "q")
     private WebElement searchLineInput;
@@ -20,14 +14,20 @@ public class MainPageGoogle {
     @FindBy(name = "btnK")
     private WebElement submitButton;
 
-// Ввод текста в строку поиска
-    public void typeTextInGoogleSearchLine(String textToSearch){
-        searchLineInput.sendKeys(textToSearch);
+    public MainPageGoogle(WebDriver driver) {
+        super(driver);
     }
 
-// Клик по кнопке "Поиск в Google"
-    public void clickGoogleSearchButton(){
-        submitButton.click();
+    // Ввод текста в строку поиска
+    public MainPageGoogle typeTextInGoogleSearchLine(String textToSearch){
+        searchLineInput.sendKeys(textToSearch);
+        return this;
+    }
+
+    // Клик по кнопке "Поиск в Google"
+    public ResultPageGoogle clickGoogleSearchButton(){
+        wait.until(ExpectedConditions.elementToBeClickable(submitButton)).click();
+        return new ResultPageGoogle(driver);
     }
 
 }

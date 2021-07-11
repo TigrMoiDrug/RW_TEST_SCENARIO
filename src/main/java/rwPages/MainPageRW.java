@@ -1,21 +1,14 @@
 package rwPages;
 
-import basics.Core;
+import basics.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
 import java.util.List;
 
-
-public class MainPageRW extends Core {
-
-    public WebDriver driver;
-
-    public MainPageRW (WebDriver driver){
-        PageFactory.initElements(driver, this);
-        this.driver = driver;
-    }
+public class MainPageRW extends AbstractPage {
 
     @FindBy(linkText = "ENG")
     private WebElement languageIconEng;
@@ -50,12 +43,17 @@ public class MainPageRW extends Core {
     @FindBy(className = "calendar")
     private WebElement datePickerButton;
 
-    @FindBy(xpath = "//*[@id='ui-datepicker-div']//*/a")
+    @FindBy(css = "a.ui-state-default")
     private List <WebElement> datePickerTable;
 
-//смена языка
-    public void switchLanguage () {
+    public MainPageRW(WebDriver driver) {
+        super(driver);
+    }
+
+    //смена языка
+    public MainPageRW switchLanguage () {
         languageIconEng.click();
+        return this;
     }
 
 // количество новостей
@@ -74,28 +72,21 @@ public class MainPageRW extends Core {
     }
 
 //поиск на БЧ
-    public void searchRW (String rd) {
+    public MainPageRW searchRW (String rd) {
         searchField.sendKeys(rd);
+        return this;
     }
 
 //клик по кнопке поискаБЧ
-    public void clickOnSearchRW () {
+    public MainPageRW clickOnSearchRW () {
         searchFieldButton.click();
-    }
-
-//поле откуда
-    public WebElement getFromField (){
-        return fromField;
-    }
-
-//поле куда
-    public WebElement getToField (){
-        return toField;
+        return this;
     }
 
 //клик по иконке дэйтпикера
-    public void clickDatePickerButton (){
+    public MainPageRW clickDatePickerButton (){
         datePickerButton.click();
+        return this;
     }
 
 //список элементов дэйтпикера
@@ -104,8 +95,23 @@ public class MainPageRW extends Core {
     }
 
 //клик по кнопке поиска
-    public void searchButtonClick(){
+    public TrainSearchResultPage searchButtonClick(){
         searchButton.click();
+        return new TrainSearchResultPage(driver);
     }
-
+//ввод данных в поле откуда
+    public MainPageRW enterTextToFieldFrom(String text){
+        fromField.sendKeys(text);
+        return this;
+    }
+//ввод данных в поле куда
+    public MainPageRW enterTextToFieldTo(String text){
+        toField.sendKeys(text);
+        return this;
+    }
+//клик по дате из дэйтпикера по индексу
+    public MainPageRW clickChosenDateInDatePickerByIndex(int index){
+        wait.until(ExpectedConditions.elementToBeClickable(datePickerTable.get(index))).click();
+        return this;
+    }
 }

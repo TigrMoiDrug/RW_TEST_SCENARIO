@@ -1,19 +1,14 @@
 package rwPages;
 
+import basics.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
 import java.util.List;
 
-public class TrainSearchResultPage {
-
-    public WebDriver driver;
-
-    public TrainSearchResultPage (WebDriver driver){
-        PageFactory.initElements(driver, this);
-        this.driver = driver;
-    }
+public class TrainSearchResultPage extends AbstractPage {
 
     @FindBy(className = "train-route")
     private List<WebElement> title;
@@ -33,20 +28,24 @@ public class TrainSearchResultPage {
     @FindBy(className = "logo-png")
     private WebElement logo;
 
-
-// вывод данных в консоль
-    public void consoleWriter () {
-        System.out.println("Количество рейсов: "+title.size());
-        System.out.println();
-        for (int i = 0; i < title.size(); i++){
-            System.out.println(title.get(i).getText() + " — " + departureTime.get(i).getText());
-            System.out.println();
-        }
+    public TrainSearchResultPage(WebDriver driver) {
+        super(driver);
     }
 
-// клик по первой ссылке
-    public void firstLinkClicker () {
+    public List<WebElement> getTitle() {
+        wait.until(ExpectedConditions.elementToBeClickable(title.get(0)));
+        return title;
+    }
+
+    public List<WebElement> getDepartureTime() {
+        wait.until(ExpectedConditions.elementToBeClickable(departureTime.get(0)));
+        return departureTime;
+    }
+
+    // клик по первой ссылке
+    public TrainSearchResultPage firstLinkClicker () {
         firstLink.click();
+        return this;
     }
 
 //возвращает название поезда
@@ -54,14 +53,14 @@ public class TrainSearchResultPage {
         return trainName.getText();
     }
 
-// возвращает текст из таблицы под название поеда
-    public int getText () {
+// возвращает размер текста из таблицы под название поеда
+    public int getTextSize () {
         return  textUnderTrainName.size();
     }
 
 // клик по лого для возврата на главную страницу
-    public void logoClick () {
+    public MainPageRW logoClick () {
         logo.click();
+        return new MainPageRW(driver);
     }
-
 }

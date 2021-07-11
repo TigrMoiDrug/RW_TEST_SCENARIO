@@ -1,14 +1,13 @@
 package tests;
 
-import org.openqa.selenium.By;
+import basics.Printer;
+
+import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
@@ -19,13 +18,10 @@ import rwPages.TrainSearchResultPage;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Properties;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
-public class BasicTest {
+public class BasicTest{
 
     public static WebDriver driver;
 
@@ -43,7 +39,6 @@ public class BasicTest {
     @Parameters("browserName")
     public static void init (String browserName){
         driver = setup(browserName);
-        setWait(driver, 30);
         maximizeWindow(driver);
     }
 
@@ -68,44 +63,19 @@ public class BasicTest {
         driver.get(googleURL);
     }
 
-    public static void setWait(WebDriver driver, int sec){
-        driver.manage().timeouts().pageLoadTimeout(sec, TimeUnit.SECONDS);
-    }
-
-    public static void setImplicitlyWait (WebDriver driver){
-        driver.manage().timeouts().implicitlyWait(5,TimeUnit.SECONDS);
-    }
-
-    public static void setImplicitlyWait (WebDriver driver, int sec){
-        driver.manage().timeouts().implicitlyWait(sec,TimeUnit.SECONDS);
-    }
-
-    public static void setExplicitWaitOnElementBeClickable (String tag){
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-                wait.until(ExpectedConditions.elementToBeClickable(By.tagName(tag)));
-    }
-
     public static void maximizeWindow (WebDriver driver){
         driver.manage().window().maximize();
     }
 
-    public static void validLocationsToFieldsFromToAndDatePlusFiveDays(MainPageRW mainPageRW, WebDriver driver) {
-        Date currentDate = new Date();
-        SimpleDateFormat currentDateFormat = new SimpleDateFormat("d");
-        String actualDate = currentDateFormat.format(currentDate);
-        System.out.println("Today is: " + actualDate);
-        mainPageRW.getFromField().sendKeys("Минск-Пассажирский");
-        mainPageRW.getToField().sendKeys("Молодечно");
-        mainPageRW.clickDatePickerButton();
-        setImplicitlyWait(driver);
-
-        for (int i = 0 ; i <  mainPageRW.getDatePickerTable().size(); i++){
-            if(mainPageRW.getDatePickerTable().get(i).getText().equals(actualDate)){
-                mainPageRW.getDatePickerTable().get(i+5).click();
-            }
-        }
-        mainPageRW.searchButtonClick();
-
+    public static void validLocationsToFieldsFromToAndDatePlusFiveDays(MainPageRW mainPageRW) {
+        String from = "Минск-Пассажирский";
+        String to = "Молодечно";
+        int index = 5;
+        mainPageRW.enterTextToFieldFrom(from)
+                .enterTextToFieldTo(to)
+                .clickDatePickerButton()
+                .clickChosenDateInDatePickerByIndex(index)
+                .searchButtonClick();
     }
 // url в зависимости от переменной окружения ENV
     public static String urlByEnvironment (){
@@ -138,6 +108,12 @@ public class BasicTest {
         }
 
         return prop.getProperty("URL");
+    }
+
+    //случайные буквы
+    public static String randomSymbols(){
+        int length = 20;
+        return RandomStringUtils.random(length, true, false);
     }
 
     @AfterClass

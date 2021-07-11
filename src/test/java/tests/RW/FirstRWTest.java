@@ -1,6 +1,5 @@
 package tests.RW;
 
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import rwPages.MainPageRW;
@@ -21,20 +20,20 @@ public class FirstRWTest extends BasicTest{
     }
 
 //проверка количества новостей в блоке
-    @Test(priority = 1)
-    public void notLessThanFourNewsDisplayed () {
+    @Test
+    public void test1notLessThanFourNewsDisplayed () {
         log.info("Количество новостей в блоке: " + mainPageRW.getNewsBlockSize());
         Assert.assertTrue(mainPageRW.getNewsBlockSize() >= 4);
     }
 // Текст копирайта
-    @Test(priority = 2)
-    public void belorussianRailwayIsDisplayed () {
+    @Test
+    public void test2belorussianRailwayIsDisplayed () {
         Assert.assertTrue(mainPageRW.getCopyright().contains(expected));
     }
 
 //В этом тесте фактическое количество кнопок не совпадает с ожидаемым
-    @Test(priority = 3)
-    public void theNumberOfButtonsIsCorrect () {
+    @Test
+    public void test3theNumberOfButtonsIsCorrect () {
         String pressCenter = "PRESS CENTER";
         String timeTable = "TIMETABLE";
         String passengerServices = "PASSENGER SERVICES";
@@ -58,7 +57,6 @@ public class FirstRWTest extends BasicTest{
         log.info("Количество совпадений с условием: "+counterOfFoundMatches);
 
         Assert.assertEquals(mainPageRW.topButtons().size(), 5);
-
     }
 
 }

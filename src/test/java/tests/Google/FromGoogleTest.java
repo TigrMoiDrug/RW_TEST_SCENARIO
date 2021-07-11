@@ -27,13 +27,10 @@ public class FromGoogleTest extends BasicTest{
 // Вот новый вариант перехода за заданный урл в зависимости от среды
         getToURL(urlByEnv, driver);
 
-        mainPageGoogle.typeTextInGoogleSearchLine(textToSearch);
 
-        setImplicitlyWait(driver);
-
-        mainPageGoogle.clickGoogleSearchButton();
-        resultPageGoogle.clickOnGoogleLink();
-
+        mainPageGoogle.typeTextInGoogleSearchLine(textToSearch)
+                .clickGoogleSearchButton()
+                .clickOnGoogleLink();
     }
 
     @Test
